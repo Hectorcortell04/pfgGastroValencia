@@ -1,10 +1,12 @@
 package com.example.gastroValenciaApi.controllers;
 
-import com.example.gastroValenciaApi.models.UserModel;
+import com.example.gastroValenciaApi.dtos.UserDTO;
 import com.example.gastroValenciaApi.services.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -17,23 +19,30 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserModel> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public Optional<UserModel> getUserById(@PathVariable int id) {
+    public Optional<UserDTO> getUserById(@PathVariable int id) {
         return userService.getUserById(id);
     }
 
     @PostMapping
-    public UserModel saveUser(@RequestBody UserModel user) {
-        return userService.saveUser(user);
+    public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO dto) {
+        UserDTO saved = userService.saveUser(dto);
+        return ResponseEntity.ok(saved);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable int id) {
-        userService.deleteUser(id);
+    public ResponseEntity<?> deleteUser(@PathVariable int id) {
+        try {
+            String message = userService.deleteUser(id);
+            return ResponseEntity.ok(Map.of("message", message));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(404).body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", "Error interno del servidor"));
+        }
     }
-
 }

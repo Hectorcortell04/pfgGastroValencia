@@ -9,7 +9,7 @@ public class EventDTO {
     private String category;
     private String location;
     private String date;
-    private String price;
+    private Double price;
     private String description;
     private String duration;
 }
