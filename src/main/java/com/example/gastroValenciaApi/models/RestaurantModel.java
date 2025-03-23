@@ -18,19 +18,19 @@ public class RestaurantModel {
     private String address;
 
     @Column(nullable = false, length = 100)
-    private String food_type;
+    private String foodType;
 
     @Column
     private Double rating;
 
     @Column(name = "average_price")
-    private Double average_price;
+    private Double averagePrice;
 
     @Column(name = "restaurant_image")
-    private String restaurant_image;
+    private String restaurantImage;
 
     @Column(name = "meal_image")
-    private String meal_image;
+    private String menuImage;
 
     @Column(columnDefinition = "TEXT")
     private String description;

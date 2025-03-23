@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class RestaurantDTO {
-    private int id;
+    private Long id;
     private String name;
     private String foodType;
     private String address;
@@ -13,5 +13,4 @@ public class RestaurantDTO {
     private String restaurantImage;
     private String menuImage;
     private String description;
-
 }
