@@ -2,6 +2,7 @@ package com.example.gastroValenciaApi.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 
 import java.time.LocalDate;
 
@@ -26,4 +27,16 @@ public class EventModel {
     private String description;
     @Column
     private String duration;
+
+    //No entiendo porque no me coge el @Data en el parámetro "date", por eso fuerzo a que no de error poniendo
+    // explicítamente los getters y setters de date (lo mismo que en EventDTO)
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
 }

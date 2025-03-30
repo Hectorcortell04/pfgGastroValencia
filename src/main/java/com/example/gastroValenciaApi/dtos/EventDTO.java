@@ -12,4 +12,16 @@ public class EventDTO {
     private Double price;
     private String description;
     private String duration;
+
+
+    //No entiendo porque no me coge el @Data en el parámetro "date", por eso fuerzo a que no de error poniendo
+    // explicítamente los getters y setters de date
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
 }
