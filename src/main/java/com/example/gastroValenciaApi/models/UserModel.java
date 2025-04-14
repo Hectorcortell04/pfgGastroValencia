@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @Table(name = "users")
 public class UserModel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,10 +20,9 @@ public class UserModel {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(name = "firebase_uid", nullable = false, unique = true, length = 128)
+    private String firebaseUid;
 
     @Column(name = "registration_date", nullable = false, updatable = false)
     private LocalDateTime registrationDate = LocalDateTime.now();
-
 }
