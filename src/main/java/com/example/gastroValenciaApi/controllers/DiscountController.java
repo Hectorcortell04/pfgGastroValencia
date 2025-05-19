@@ -40,7 +40,6 @@ public class DiscountController {
         }
     }
 
-
     @PostMapping
     public ResponseEntity<DiscountDTO> save(@RequestBody DiscountDTO dto) {
         return ResponseEntity.ok(service.save(dto));

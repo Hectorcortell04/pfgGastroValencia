@@ -9,4 +9,3 @@ public interface RestaurantRepository extends JpaRepository<RestaurantModel, Lon
     // Busca restaurantes cuyo nombre contenga 'query' (ignore mayúsculas/minúsculas)
     List<RestaurantModel> findByNameContainingIgnoreCase(String query);
 }
-

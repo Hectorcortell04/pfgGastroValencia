@@ -11,4 +11,3 @@ public interface EventRepository extends JpaRepository<EventModel, Long> {
     // Busca eventos cuyo nombre/título contenga 'query' (ignore mayúsculas/minúsculas)
     List<EventModel> findByNameContainingIgnoreCase(String query);
 }
-

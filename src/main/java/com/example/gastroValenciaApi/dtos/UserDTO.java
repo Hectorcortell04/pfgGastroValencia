@@ -13,4 +13,3 @@ public class UserDTO {
     private LocalDateTime registrationDate;
     private String userImage;
 }
-
