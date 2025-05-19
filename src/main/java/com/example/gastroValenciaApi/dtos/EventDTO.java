@@ -4,18 +4,18 @@ import lombok.Data;
 
 @Data
 public class EventDTO {
-    private int id;
+    private Integer id;
     private String name;
     private String category;
     private String location;
     private String date;
+    private String time;
     private Double price;
     private String description;
     private String duration;
+    private String eventImage;
 
 
-    //No entiendo porque no me coge el @Data en el parámetro "date", por eso fuerzo a que no de error poniendo
-    // explicítamente los getters y setters de date
     public String getDate() {
         return date;
     }

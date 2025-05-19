@@ -1,3 +1,4 @@
+// EventController.java
 package com.example.gastroValenciaApi.controllers;
 
 import com.example.gastroValenciaApi.dtos.EventDTO;
@@ -25,7 +26,7 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public Optional<EventDTO> getEventById(@PathVariable int id) {
+    public Optional<EventDTO> getEventById(@PathVariable Long id) {
         return eventService.getEventById(id);
     }
 
@@ -36,7 +37,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEvent(@PathVariable int id) {
+    public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
         try {
             String message = eventService.deleteEvent(id);
             return ResponseEntity.ok(Map.of("message", message));
@@ -47,4 +48,9 @@ public class EventController {
         }
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<EventDTO>> searchByName(
+            @RequestParam("q") String q) {
+        return ResponseEntity.ok(eventService.searchName(q));
+    }
 }

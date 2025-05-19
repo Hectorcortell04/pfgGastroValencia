@@ -20,7 +20,9 @@ public class EventModel {
     @Column(nullable = false, length = 250)
     private String location;
     @Column(nullable = false)
-    private LocalDate date;
+    private String date;
+    @Column(nullable = true, length = 8)
+    private String time;
     @Column
     private Double price;
     @Column(columnDefinition = "TEXT")
@@ -31,11 +33,11 @@ public class EventModel {
     //No entiendo porque no me coge el @Data en el parámetro "date", por eso fuerzo a que no de error poniendo
     // explicítamente los getters y setters de date (lo mismo que en EventDTO)
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

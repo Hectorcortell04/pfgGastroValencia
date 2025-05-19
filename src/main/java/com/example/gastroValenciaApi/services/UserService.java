@@ -25,15 +25,32 @@ public class UserService {
     }
 
     public List<UserDTO> getAllUsers() {
-        return userRepository.findAll().stream().map(userMapper::toDTO).collect(Collectors.toList());
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     public Optional<UserDTO> getUserById(Long id) {
-        return userRepository.findById(id).map(userMapper::toDTO);
+        return userRepository.findById(id)
+                .map(userMapper::toDTO);
     }
 
     public UserDTO saveUser(UserDTO dto) {
         UserModel model = userMapper.toEntity(dto);
+        UserModel saved = userRepository.save(model);
+        return userMapper.toDTO(saved);
+    }
+
+    /**
+     * Registra un usuario sin pasar por autenticación externa.
+     */
+    public UserDTO registerUserWithoutAuth(UserDTO dto) {
+        // Mapear DTO -> entidad
+        UserModel model = userMapper.toEntity(dto);
+        // Fijar fecha de registro ahora (si es null o queremos sobrescribir)
+        model.setRegistrationDate(LocalDateTime.now());
+        // Guardar y devolver DTO
         UserModel saved = userRepository.save(model);
         return userMapper.toDTO(saved);
     }

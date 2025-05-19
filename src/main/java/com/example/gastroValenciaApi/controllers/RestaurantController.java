@@ -1,3 +1,4 @@
+// RestaurantController.java
 package com.example.gastroValenciaApi.controllers;
 
 import com.example.gastroValenciaApi.dtos.RestaurantDTO;
@@ -45,5 +46,11 @@ public class RestaurantController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body(Map.of("error", "Error del servidor"));
         }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<RestaurantDTO>> searchByName(
+            @RequestParam("q") String q) {
+        return ResponseEntity.ok(restaurantService.searchName(q));
     }
 }

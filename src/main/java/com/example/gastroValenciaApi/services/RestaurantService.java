@@ -1,3 +1,4 @@
+// ───────── RestaurantService.java ─────────
 package com.example.gastroValenciaApi.services;
 
 import com.example.gastroValenciaApi.dtos.RestaurantDTO;
@@ -21,11 +22,11 @@ public class RestaurantService {
         this.restaurantMapper = restaurantMapper;
     }
 
-
-
     public List<RestaurantDTO> getAllRestaurants() {
-        return restaurantRepository.findAll().stream().map(restaurantMapper::toDTO).collect(Collectors.toList());
-
+        return restaurantRepository.findAll()
+                .stream()
+                .map(restaurantMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     public Optional<RestaurantDTO> getRestaurantById(Long id) {
@@ -41,9 +42,18 @@ public class RestaurantService {
 
     public String deleteRestaurant(Long id) {
         if (!restaurantRepository.existsById(id)) {
-            throw new IllegalArgumentException("El restaurante con ID" + id + " no existe.");
+            throw new IllegalArgumentException("El restaurante con ID " + id + " no existe.");
         }
         restaurantRepository.deleteById(id);
-        return "El restaurante con ID" + id + " ha sido eliminado correctamente.";
+        return "El restaurante con ID " + id + " ha sido eliminado correctamente.";
+    }
+
+    // ───────── MÉTODO DE BÚSQUEDA ─────────
+    public List<RestaurantDTO> searchName(String texto) {
+        return restaurantRepository
+                .findByNameContainingIgnoreCase(texto)
+                .stream()
+                .map(restaurantMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

@@ -1,3 +1,4 @@
+// ───────── EventService.java ─────────
 package com.example.gastroValenciaApi.services;
 
 import com.example.gastroValenciaApi.dtos.EventDTO;
@@ -22,24 +23,37 @@ public class EventService {
     }
 
     public List<EventDTO> getAllEvents() {
-        return eventRepository.findAll().stream().map(eventMapper::toDTO).collect(Collectors.toList());
+        return eventRepository.findAll()
+                .stream()
+                .map(eventMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    public Optional<EventDTO> getEventById(int id) {
-        return eventRepository.findById(id).map(eventMapper::toDTO);
+    public Optional<EventDTO> getEventById(Long id) {
+        return eventRepository.findById(id)
+                .map(eventMapper::toDTO);
     }
 
     public EventDTO saveEvent(EventDTO dto) {
         EventModel event = eventMapper.toEntity(dto);
         EventModel saved = eventRepository.save(event);
-        return eventMapper.toDTO(saved);
+        return eventMapper.toDTO (saved);
     }
 
-    public String deleteEvent(int id) {
+    public String deleteEvent(Long id) {
         if (!eventRepository.existsById(id)) {
-            throw new IllegalArgumentException("Does not found");
+            throw new IllegalArgumentException("Evento con ID " + id + " no existe.");
         }
         eventRepository.deleteById(id);
-        return "El usuario con ID" + id + "ha sido eliminado";
+        return "El evento con ID " + id + " ha sido eliminado correctamente.";
+    }
+
+    // ───────── MÉTODO DE BÚSQUEDA ─────────
+    public List<EventDTO> searchName(String texto) {
+        return eventRepository
+                .findByNameContainingIgnoreCase(texto)
+                .stream()
+                .map(eventMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

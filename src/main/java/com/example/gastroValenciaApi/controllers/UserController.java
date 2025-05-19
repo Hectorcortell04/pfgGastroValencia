@@ -68,4 +68,11 @@ public class UserController {
             return ResponseEntity.status(401).body(Map.of("error", "El token no es válido o ha expirado."));
         }
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO dto) {
+        UserDTO saved = userService.registerUserWithoutAuth(dto);
+        return ResponseEntity.ok(saved);
+    }
+
 }

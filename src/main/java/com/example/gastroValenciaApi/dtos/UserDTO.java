@@ -1,5 +1,6 @@
 package com.example.gastroValenciaApi.dtos;
 
+import com.example.gastroValenciaApi.models.UserModel;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -7,7 +8,9 @@ import java.time.LocalDateTime;
 public class UserDTO {
     private Long id;
     private String name;
-    private String email; // Este campo se sobrescribe desde el token
+    private String email;
     private String firebaseUid;
     private LocalDateTime registrationDate;
+    private String userImage;
 }
+
