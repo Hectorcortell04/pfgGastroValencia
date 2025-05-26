@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RestaurantRepository extends JpaRepository<RestaurantModel, Long> {
-    // Busca restaurantes cuyo nombre contenga 'query' (ignore mayúsculas/minúsculas)
+    // Busca restaurantes cuyo nombre contenga 'query' (ignora mayúsculas/minúsculas)
     List<RestaurantModel> findByNameContainingIgnoreCase(String query);
 }

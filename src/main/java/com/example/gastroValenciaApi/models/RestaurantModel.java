@@ -3,10 +3,13 @@ package com.example.gastroValenciaApi.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "restaurants")
 public class RestaurantModel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,13 +29,13 @@ public class RestaurantModel {
     @Column(name = "average_price")
     private Double averagePrice;
 
-    @Column(name = "restaurant_image")
-    private String restaurantImage;
+    @ElementCollection
+    @Column(name = "restaurant_images")
+    private List<String> restaurantImages;
 
     @Column(name = "meal_image")
     private String menuImage;
 
     @Column(columnDefinition = "TEXT")
     private String description;
-
 }

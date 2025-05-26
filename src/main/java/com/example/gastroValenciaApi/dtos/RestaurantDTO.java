@@ -2,6 +2,8 @@ package com.example.gastroValenciaApi.dtos;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class RestaurantDTO {
     private Long id;
@@ -10,7 +12,7 @@ public class RestaurantDTO {
     private String address;
     private Double rating;
     private Double averagePrice;
-    private String restaurantImage;
+    private List<String> restaurantImages;
     private String menuImage;
     private String description;
 }

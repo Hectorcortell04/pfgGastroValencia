@@ -48,7 +48,6 @@ public class RestaurantService {
         return "El restaurante con ID " + id + " ha sido eliminado correctamente.";
     }
 
-    // ───────── MÉTODO DE BÚSQUEDA ─────────
     public List<RestaurantDTO> searchName(String texto) {
         return restaurantRepository
                 .findByNameContainingIgnoreCase(texto)
