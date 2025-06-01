@@ -1,5 +1,6 @@
 package com.example.gastroValenciaApi.models;
 
+import com.example.gastroValenciaApi.enums.RestaurantType;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,8 +21,10 @@ public class RestaurantModel {
     @Column(nullable = false, length = 150)
     private String address;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 100)
-    private String foodType;
+    private RestaurantType foodType;
+
 
     @Column
     private Double rating;
@@ -33,7 +36,7 @@ public class RestaurantModel {
     @Column(name = "restaurant_images")
     private List<String> restaurantImages;
 
-    @Column(name = "meal_image")
+    @Column(name = "menu_image")
     private String menuImage;
 
     @Column(columnDefinition = "TEXT")

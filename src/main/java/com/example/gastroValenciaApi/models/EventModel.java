@@ -1,10 +1,10 @@
 package com.example.gastroValenciaApi.models;
 
+import com.example.gastroValenciaApi.enums.EventType;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.http.converter.json.GsonBuilderUtils;
-
-import java.time.LocalDate;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Data
@@ -15,10 +15,13 @@ public class EventModel {
     private Long id;
     @Column(nullable = false, length = 150)
     private String name;
-    @Column(nullable = false, length = 100)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private EventType category;
     @Column(nullable = false, length = 250)
     private String location;
+    @Setter
+    @Getter
     @Column(nullable = false)
     private String date;
     @Column(nullable = true, length = 8)
@@ -29,16 +32,5 @@ public class EventModel {
     private String description;
     @Column
     private String duration;
-
-    //No entiendo porque no me coge el @Data en el parámetro "date", por eso fuerzo a que no de error poniendo
-    // explicítamente los getters y setters de date (lo mismo que en EventDTO)
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
 
 }

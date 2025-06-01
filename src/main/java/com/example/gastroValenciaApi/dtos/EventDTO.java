@@ -1,12 +1,13 @@
 package com.example.gastroValenciaApi.dtos;
 
+import com.example.gastroValenciaApi.enums.EventType;
 import lombok.Data;
 
 @Data
 public class EventDTO {
-    private Integer id;
+    private Long id;
     private String name;
-    private String category;
+    private EventType category;
     private String location;
     private String date;
     private String time;
@@ -15,13 +16,5 @@ public class EventDTO {
     private String duration;
     private String eventImage;
 
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
 
 }

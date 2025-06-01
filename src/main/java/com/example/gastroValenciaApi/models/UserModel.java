@@ -24,5 +24,12 @@ public class UserModel {
     private String firebaseUid;
 
     @Column(name = "registration_date", nullable = false, updatable = false)
-    private LocalDateTime registrationDate = LocalDateTime.now();
+    private LocalDateTime registrationDate;
+
+    @PrePersist
+    protected void onCreate() {
+        if (registrationDate == null) {
+            registrationDate = LocalDateTime.now();
+        }
+    }
 }

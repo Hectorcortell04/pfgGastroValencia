@@ -1,5 +1,6 @@
 package com.example.gastroValenciaApi.dtos;
 
+import com.example.gastroValenciaApi.enums.RestaurantType;
 import lombok.Data;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public class RestaurantDTO {
     private Long id;
     private String name;
-    private String foodType;
+    private RestaurantType foodType;
     private String address;
     private Double rating;
     private Double averagePrice;
