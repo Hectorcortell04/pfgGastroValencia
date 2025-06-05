@@ -59,7 +59,6 @@ public class EventLikeService {
         return eventLikeRepository.findByEvent(event);
     }
 
-    // Obtener todos los likes de evento
     public List<EventLikeModel> findAll() {
         return eventLikeRepository.findAll();
     }

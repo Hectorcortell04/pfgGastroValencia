@@ -15,6 +15,7 @@ public class EventDTO {
     private String description;
     private String duration;
     private String eventImage;
-
+    private boolean liked;
+    private String eventWeb;
 
 }

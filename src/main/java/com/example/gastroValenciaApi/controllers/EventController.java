@@ -30,6 +30,11 @@ public class EventController {
         return eventService.getEventById(id);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<EventDTO>> getAllEventsByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(eventService.getAllEventsByUser(userId));
+    }
+
     @PostMapping
     public ResponseEntity<EventDTO> saveEvent(@RequestBody EventDTO dto) {
         EventDTO saved = eventService.saveEvent(dto);
@@ -48,9 +53,21 @@ public class EventController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @RequestBody EventDTO dto) {
+        try {
+            EventDTO updated = eventService.updateEvent(id, dto);
+            return ResponseEntity.ok(updated);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(404).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
     @GetMapping("/search")
     public ResponseEntity<List<EventDTO>> searchByName(
-            @RequestParam("q") String q) {
-        return ResponseEntity.ok(eventService.searchName(q));
+            @RequestParam("name") String name) {
+        return ResponseEntity.ok(eventService.searchName(name));
     }
 }

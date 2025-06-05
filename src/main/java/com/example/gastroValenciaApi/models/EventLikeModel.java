@@ -2,8 +2,8 @@ package com.example.gastroValenciaApi.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.List;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data
@@ -14,13 +14,13 @@ public class EventLikeModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserModel user;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "event_id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id", nullable = false)
     private EventModel event;
-
 
 }

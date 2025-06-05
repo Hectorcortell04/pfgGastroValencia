@@ -41,4 +41,8 @@ public class RestaurantModel {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "restaurant_web", length = 255)
+    private String restaurantWeb;
+
 }

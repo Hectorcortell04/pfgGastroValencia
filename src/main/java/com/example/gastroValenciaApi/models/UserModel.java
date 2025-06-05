@@ -26,7 +26,10 @@ public class UserModel {
     @Column(name = "registration_date", nullable = false, updatable = false)
     private LocalDateTime registrationDate;
 
-    @PrePersist
+    @Column(name = "user_image", length = 255)
+    private String userImage;
+
+    @PrePersist //para asignar la fecha de creación
     protected void onCreate() {
         if (registrationDate == null) {
             registrationDate = LocalDateTime.now();

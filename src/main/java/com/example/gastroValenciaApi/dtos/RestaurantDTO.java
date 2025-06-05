@@ -16,4 +16,6 @@ public class RestaurantDTO {
     private List<String> restaurantImages;
     private String menuImage;
     private String description;
+    private boolean liked;
+    private String restaurantWeb;
 }

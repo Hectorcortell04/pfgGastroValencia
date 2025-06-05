@@ -30,11 +30,30 @@ public class RestaurantController {
         return restaurantService.getRestaurantById(id);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<RestaurantDTO>> getAllByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(restaurantService.getAllRestaurantsByUser(userId));
+    }
+
+
     @PostMapping
     public ResponseEntity<RestaurantDTO> saveRestaurant(@RequestBody RestaurantDTO dto) {
         RestaurantDTO saved = restaurantService.saveRestaurant(dto);
         return ResponseEntity.ok(saved);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateRestaurant(@PathVariable Long id, @RequestBody RestaurantDTO dto) {
+        try {
+            RestaurantDTO updated = restaurantService.updateRestaurant(id, dto);
+            return ResponseEntity.ok(updated);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(404).body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", "Error al actualizar restaurante"));
+        }
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRestaurant(@PathVariable Long id) {
@@ -50,7 +69,7 @@ public class RestaurantController {
 
     @GetMapping("/search")
     public ResponseEntity<List<RestaurantDTO>> searchByName(
-            @RequestParam("q") String q) {
-        return ResponseEntity.ok(restaurantService.searchName(q));
+            @RequestParam("name") String name) {
+        return ResponseEntity.ok(restaurantService.searchName(name));
     }
 }

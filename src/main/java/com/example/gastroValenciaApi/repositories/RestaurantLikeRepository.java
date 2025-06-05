@@ -16,5 +16,6 @@ public interface RestaurantLikeRepository extends JpaRepository<RestaurantLikeMo
 
     List<RestaurantLikeModel> findByRestaurant(RestaurantModel restaurant);
 
-//    void deleteByUserAndRestaurant(UserModel user, RestaurantModel restaurant);
+    List<RestaurantLikeModel> findByUserId(Long userId);
+
 }

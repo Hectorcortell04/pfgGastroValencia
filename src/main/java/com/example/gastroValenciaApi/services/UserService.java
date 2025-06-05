@@ -1,8 +1,10 @@
 package com.example.gastroValenciaApi.services;
 
+import com.example.gastroValenciaApi.dtos.DiscountDTO;
 import com.example.gastroValenciaApi.dtos.UserDTO;
 import com.example.gastroValenciaApi.mappers.UserMapper;
 import com.example.gastroValenciaApi.models.UserModel;
+import com.example.gastroValenciaApi.repositories.MembershipLevelRepository;
 import com.example.gastroValenciaApi.repositories.UserRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
@@ -18,10 +20,17 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final DiscountService discountService;
+    private final MembershipLevelRepository membershipLevelRepository;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository,
+                       UserMapper userMapper,
+                       DiscountService discountService,
+                       MembershipLevelRepository membershipLevelRepository) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.discountService = discountService;
+        this.membershipLevelRepository = membershipLevelRepository;
     }
 
     public List<UserDTO> getAllUsers() {
@@ -42,17 +51,27 @@ public class UserService {
         return userMapper.toDTO(saved);
     }
 
-    /**
-     * Registra un usuario sin pasar por autenticación externa.
-     */
-    public UserDTO registerUserWithoutAuth(UserDTO dto) {
-        // Mapear DTO -> entidad
-        UserModel model = userMapper.toEntity(dto);
-        // Fijar fecha de registro ahora (si es null o queremos sobrescribir)
-        model.setRegistrationDate(LocalDateTime.now());
-        // Guardar y devolver DTO
-        UserModel saved = userRepository.save(model);
+    public UserDTO updateUser(UserDTO dto) {
+        Optional<UserModel> existingUser = userRepository.findById(dto.getId());
+
+        if (existingUser.isEmpty()) {
+            throw new IllegalArgumentException("Usuario con ID " + dto.getId() + " no existe.");
+        }
+
+        UserModel modelToUpdate = existingUser.get();
+
+        // Campos editables
+        modelToUpdate.setName(dto.getName());
+        modelToUpdate.setUserImage(dto.getUserImage());
+
+        UserModel saved = userRepository.save(modelToUpdate);
         return userMapper.toDTO(saved);
+    }
+
+
+    public Optional<UserDTO> getByFirebaseUid(String firebaseUid) {
+        return userRepository.findByFirebaseUid(firebaseUid)
+                .map(userMapper::toDTO);
     }
 
     public String deleteUser(Long id) {
@@ -63,12 +82,37 @@ public class UserService {
         return "El usuario con ID " + id + " ha sido eliminado";
     }
 
+    private void assignDefaultDiscountsToUser(Long userId) {
+        List<String> defaultDiscounts = List.of(
+                "Descuento 30% en tu primer evento",
+                "Descuento 10% primera reserva",
+                "Envío gratis usuarios nivel Basic",
+                "Descuento 50% verano",
+                "Código descuento DESC30"
+        );
+
+        DiscountDTO discountDTO = new DiscountDTO();
+        discountDTO.setUserId(userId);
+        discountDTO.setMembershipLevelId(1L);
+        discountDTO.setDiscounts(defaultDiscounts);
+
+        discountService.updateOrCreateDiscount(userId, discountDTO);
+    }
+
+    public UserDTO registerUserWithoutAuth(UserDTO dto) {
+        UserModel model = userMapper.toEntity(dto);
+        model.setRegistrationDate(LocalDateTime.now());
+        UserModel saved = userRepository.save(model);
+
+        assignDefaultDiscountsToUser(saved.getId());
+
+        return userMapper.toDTO(saved);
+    }
+
     public UserDTO authenticateAndSaveIfNotExists(String idToken) throws Exception {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
-
         String uid = decodedToken.getUid();
         String email = decodedToken.getEmail();
-
         String name = decodedToken.getName();
         if (name == null || name.isBlank()) {
             name = email;
@@ -85,7 +129,10 @@ public class UserService {
         newUser.setName(name);
         newUser.setRegistrationDate(LocalDateTime.now());
 
-        UserModel saved = userRepository.save(newUser);
-        return userMapper.toDTO(saved);
+        UserModel savedUser = userRepository.save(newUser);
+
+        assignDefaultDiscountsToUser(savedUser.getId());
+
+        return userMapper.toDTO(savedUser);
     }
 }

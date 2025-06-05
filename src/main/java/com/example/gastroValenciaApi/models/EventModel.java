@@ -32,5 +32,10 @@ public class EventModel {
     private String description;
     @Column
     private String duration;
+    @Column(name = "event_image", length = 255)
+    private String eventImage;
+    @Column(name = "event_web", length = 255)
+    private String eventWeb;
+
 
 }

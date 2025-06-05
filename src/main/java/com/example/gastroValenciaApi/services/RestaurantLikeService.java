@@ -60,7 +60,6 @@ public class RestaurantLikeService {
         return restaurantLikeRepository.findByRestaurant(restaurant);
     }
 
-    // Nuevo metodo para obtener todos los likes
     public List<RestaurantLikeModel> findAll() {
         return restaurantLikeRepository.findAll();
     }

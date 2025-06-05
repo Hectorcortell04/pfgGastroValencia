@@ -14,6 +14,7 @@ public interface UserMapper {
     @Mapping(source = "email", target = "email")
     @Mapping(source = "firebaseUid", target = "firebaseUid")
     @Mapping(source = "registrationDate", target = "registrationDate")
+    @Mapping(source = "userImage", target = "userImage")
     UserDTO toDTO(UserModel model);
 
     @InheritInverseConfiguration

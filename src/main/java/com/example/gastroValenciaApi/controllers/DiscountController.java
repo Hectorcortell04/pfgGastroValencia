@@ -21,7 +21,6 @@ public class DiscountController {
 
     @GetMapping
     public List<DiscountDTO> getAll() {
-
         return service.getAll();
     }
 
@@ -33,7 +32,7 @@ public class DiscountController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> getByUserId(@PathVariable Long userId) {
         Optional<DiscountDTO> dto = service.getByUserId(userId);
-        if (dto.isPresent()) { //Lo he hecho con if porque sinó daba error el ResponseEntity con el Optional.Map
+        if (dto.isPresent()) {
             return ResponseEntity.ok(dto.get());
         } else {
             return ResponseEntity.status(404).body(Map.of("error", "No se encontró descuento para el usuario"));
@@ -43,6 +42,18 @@ public class DiscountController {
     @PostMapping
     public ResponseEntity<DiscountDTO> save(@RequestBody DiscountDTO dto) {
         return ResponseEntity.ok(service.save(dto));
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<DiscountDTO> updateOrCreateDiscount(
+            @PathVariable Long userId,
+            @RequestBody DiscountDTO dto) {
+        try {
+            DiscountDTO saved = service.updateOrCreateDiscount(userId, dto);
+            return ResponseEntity.ok(saved);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(404).body(null);
+        }
     }
 
     @DeleteMapping("/{id}")

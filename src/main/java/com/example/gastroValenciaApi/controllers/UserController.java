@@ -46,6 +46,15 @@ public class UserController {
         return ResponseEntity.ok(saved);
     }
 
+    //Modificar usuario por ID
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO dto) {
+        dto.setId(id); // aseguramos que el ID del path se use
+        UserDTO updated = userService.updateUser(dto);
+        return ResponseEntity.ok(updated);
+    }
+
+//Borrar usuario por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
@@ -68,6 +77,14 @@ public class UserController {
             return ResponseEntity.status(401).body(Map.of("error", "El token no es válido o ha expirado."));
         }
     }
+
+    @GetMapping("/firebase/{firebaseUid}")
+    public ResponseEntity<UserDTO> getByFirebaseUid(@PathVariable String firebaseUid) {
+        return userService.getByFirebaseUid(firebaseUid)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO dto) {
