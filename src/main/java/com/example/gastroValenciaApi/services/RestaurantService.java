@@ -49,6 +49,17 @@ public class RestaurantService {
         }).collect(Collectors.toList());
     }
 
+    public RestaurantDTO getRestaurantByIdAndUser(Long restaurantId, Long userId) {
+        RestaurantModel restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new IllegalArgumentException("Restaurante no encontrado con ID " + restaurantId));
+
+        boolean liked = restaurantLikeRepository.findByUserIdAndRestaurantId(userId, restaurantId).isPresent();
+
+        RestaurantDTO dto = restaurantMapper.toDTO(restaurant);
+        dto.setLiked(liked);
+        return dto;
+    }
+
 
     public Optional<RestaurantDTO> getRestaurantById(Long id) {
         return restaurantRepository.findById(id)

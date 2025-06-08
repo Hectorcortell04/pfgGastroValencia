@@ -49,6 +49,18 @@ public class EventService {
         }).collect(Collectors.toList());
     }
 
+    public EventDTO getEventByIdAndUser(Long eventId, Long userId) {
+        EventModel event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("Evento no encontrado con ID " + eventId));
+
+        boolean liked = eventLikeRepository.findByUserIdAndEventId(userId, eventId).isPresent();
+
+        EventDTO dto = eventMapper.toDTO(event);
+        dto.setLiked(liked);
+        return dto;
+    }
+
+
 
     public Optional<EventDTO> getEventById(Long id) {
         return eventRepository.findById(id)

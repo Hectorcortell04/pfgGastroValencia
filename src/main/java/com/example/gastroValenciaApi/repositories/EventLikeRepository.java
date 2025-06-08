@@ -21,4 +21,5 @@ public interface EventLikeRepository extends JpaRepository<EventLikeModel, Long>
 
     List<EventLikeModel> findByUserId(Long userId);
 
+    Optional<EventLikeModel> findByUserIdAndEventId(Long userId, Long eventId);
 }

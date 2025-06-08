@@ -18,4 +18,7 @@ public interface RestaurantLikeRepository extends JpaRepository<RestaurantLikeMo
 
     List<RestaurantLikeModel> findByUserId(Long userId);
 
+    Optional<RestaurantLikeModel> findByUserIdAndRestaurantId(Long userId, Long restaurantId);
+
+
 }

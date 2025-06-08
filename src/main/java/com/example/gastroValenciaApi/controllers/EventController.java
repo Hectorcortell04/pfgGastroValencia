@@ -35,6 +35,15 @@ public class EventController {
         return ResponseEntity.ok(eventService.getAllEventsByUser(userId));
     }
 
+    @GetMapping("/{eventId}/{userId}")
+    public ResponseEntity<EventDTO> getEventByIdAndUser(
+            @PathVariable Long eventId,
+            @PathVariable Long userId
+    ) {
+        return ResponseEntity.ok(eventService.getEventByIdAndUser(eventId, userId));
+    }
+
+
     @PostMapping
     public ResponseEntity<EventDTO> saveEvent(@RequestBody EventDTO dto) {
         EventDTO saved = eventService.saveEvent(dto);

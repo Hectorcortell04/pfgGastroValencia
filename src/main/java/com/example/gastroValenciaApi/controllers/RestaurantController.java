@@ -31,8 +31,18 @@ public class RestaurantController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<RestaurantDTO>> getAllByUser(@PathVariable Long userId) {
+    public ResponseEntity<List<RestaurantDTO>> getAllRestaurantsByUser(@PathVariable Long userId) {
         return ResponseEntity.ok(restaurantService.getAllRestaurantsByUser(userId));
+    }
+
+
+
+    @GetMapping("/{restaurantId}/{userId}")
+    public ResponseEntity<RestaurantDTO> getRestaurantByIdAndUser(
+            @PathVariable Long restaurantId,
+            @PathVariable Long userId
+    ) {
+        return ResponseEntity.ok(restaurantService.getRestaurantByIdAndUser(restaurantId, userId));
     }
 
 

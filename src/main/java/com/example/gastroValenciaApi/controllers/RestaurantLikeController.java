@@ -1,5 +1,6 @@
 package com.example.gastroValenciaApi.controllers;
 
+import com.example.gastroValenciaApi.dtos.RestaurantDTO;
 import com.example.gastroValenciaApi.dtos.RestaurantLikeDTO;
 import com.example.gastroValenciaApi.mappers.RestaurantLikeMapper;
 import com.example.gastroValenciaApi.services.RestaurantLikeService;
@@ -34,6 +35,7 @@ public class RestaurantLikeController {
         return ResponseEntity.ok(result);
     }
 
+
     // 👉 Obtener TODOS los likes
     @GetMapping
     public ResponseEntity<List<RestaurantLikeDTO>> getAllLikes() {
@@ -46,13 +48,11 @@ public class RestaurantLikeController {
 
     // 👉 Obtener todos los likes de un usuario
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<RestaurantLikeDTO>> getLikesByUser(@PathVariable Long userId) {
-        List<RestaurantLikeDTO> dtos = restaurantLikeService.getLikesByUser(userId)
-                .stream()
-                .map(restaurantLikeMapper::toDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
+    public ResponseEntity<List<RestaurantDTO>> getLikesByUser(@PathVariable Long userId) {
+        List<RestaurantDTO> likedRestaurants = restaurantLikeService.getLikesByUser(userId);
+        return ResponseEntity.ok(likedRestaurants);
     }
+
 
     // 👉 Obtener todos los likes de un restaurante
     @GetMapping("/restaurant/{restaurantId}")

@@ -5,6 +5,7 @@ import com.example.gastroValenciaApi.mappers.EventLikeMapper;
 import com.example.gastroValenciaApi.services.EventLikeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.gastroValenciaApi.dtos.EventDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,13 +47,11 @@ public class EventLikeController {
 
     // 👉 Obtener todos los likes que ha hecho un usuario
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<EventLikeDTO>> getLikesByUser(@PathVariable Long userId) {
-        List<EventLikeDTO> dtos = eventLikeService.getLikesByUser(userId)
-                .stream()
-                .map(eventLikeMapper::toDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
+    public ResponseEntity<List<EventDTO>> getLikesByUser(@PathVariable Long userId) {
+        List<EventDTO> likedEvents = eventLikeService.getLikesByUser(userId);
+        return ResponseEntity.ok(likedEvents);
     }
+
 
     // 👉 Obtener todos los likes que tiene un evento
     @GetMapping("/event/{eventId}")

@@ -1,5 +1,7 @@
 package com.example.gastroValenciaApi.services;
 
+import com.example.gastroValenciaApi.dtos.RestaurantDTO;
+import com.example.gastroValenciaApi.mappers.RestaurantMapper;
 import com.example.gastroValenciaApi.models.RestaurantLikeModel;
 import com.example.gastroValenciaApi.models.RestaurantModel;
 import com.example.gastroValenciaApi.models.UserModel;
@@ -9,6 +11,7 @@ import com.example.gastroValenciaApi.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RestaurantLikeService {
@@ -16,15 +19,19 @@ public class RestaurantLikeService {
     private final RestaurantLikeRepository restaurantLikeRepository;
     private final UserRepository userRepository;
     private final RestaurantRepository restaurantRepository;
+    private final RestaurantMapper restaurantMapper;
+
 
     public RestaurantLikeService(
             RestaurantLikeRepository restaurantLikeRepository,
             UserRepository userRepository,
-            RestaurantRepository restaurantRepository
+            RestaurantRepository restaurantRepository, RestaurantMapper restaurantMapper
+
     ) {
         this.restaurantLikeRepository = restaurantLikeRepository;
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
+        this.restaurantMapper = restaurantMapper;
     }
 
     public String toggleLike(Long userId, Long restaurantId) {
@@ -48,10 +55,13 @@ public class RestaurantLikeService {
                 });
     }
 
-    public List<RestaurantLikeModel> getLikesByUser(Long userId) {
-        UserModel user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-        return restaurantLikeRepository.findByUser(user);
+    public List<RestaurantDTO> getLikesByUser(Long userId) {
+        List<RestaurantLikeModel> likes = restaurantLikeRepository.findByUserId(userId);
+
+        return likes.stream()
+                .map(RestaurantLikeModel::getRestaurant)
+                .map(restaurantMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     public List<RestaurantLikeModel> getLikesByRestaurant(Long restaurantId) {
